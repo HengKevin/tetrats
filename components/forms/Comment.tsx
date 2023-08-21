@@ -22,7 +22,7 @@ import { isBase64Image } from "@/lib/utils";
 import { useUploadThing } from "@/lib/uploadthing";
 import { updateUser } from "@/lib/actions/user.action";
 import { usePathname, useRouter } from "next/navigation";
-import { addCommnetToThread, createThread } from "@/lib/actions/thread.action";
+import { addCommentToThread, createThread } from "@/lib/actions/thread.action";
 
 interface Props {
   threadId: string;
@@ -42,7 +42,7 @@ const Comment = ({ threadId, currentUserImg, currentUserId }: Props) => {
   });
 
   const onSubmit = async (values: z.infer<typeof CommentValidation>) => {
-    await addCommnetToThread(
+    await addCommentToThread(
       threadId,
       values.thread,
       JSON.parse(currentUserId),

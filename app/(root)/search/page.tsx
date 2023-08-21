@@ -8,8 +8,15 @@ import Image from "next/image";
 import { profileTabs } from "@/constants";
 import ThreadsTab from "@/components/shared/ThreadsTab";
 import UserCard from "@/components/cards/UserCard";
+import { Input } from "@/components/ui/input";
+import { FormControl } from "@/components/ui/form";
+import Searchbar from "@/components/shared/Searchbar";
 
-async function Page() {
+async function Page({
+  searchParams,
+}: {
+  searchParams: { [key: string]: string | undefined };
+}) {
   const user = await currentUser();
   if (!user) return null;
 
@@ -20,7 +27,7 @@ async function Page() {
   // fetch all the users
   const results = await fetchUsers({
     userId: user.id,
-    searchString: "",
+    searchString: searchParams.q,
     pageNumber: 1,
     pageSize: 20,
   });
@@ -29,6 +36,7 @@ async function Page() {
       <h1 className="head-text mb-10">Search</h1>
 
       {/* Search Bar */}
+      <Searchbar routerType="search" />
       <div className="mt-14 flex flex-col gap-9">
         {results.users.length === 0 ? (
           <p className="no-result">No User Found</p>

@@ -1,9 +1,5 @@
 import PostThread from "@/components/forms/PostThread";
-import {
-  fetchUser,
-  fetchUsers,
-  getActivities,
-} from "@/lib/actions/user.action";
+import { fetchUser, fetchUsers, getActivity } from "@/lib/actions/user.action";
 import { currentUser } from "@clerk/nextjs";
 import { redirect } from "next/navigation";
 import ProfileHeader from "@/components/shared/ProfileHeader";
@@ -23,7 +19,7 @@ async function Page() {
   if (!userInfo?.onboarded) redirect("/onboarding");
 
   // get activities
-  const activities = await getActivities(userInfo._id);
+  const activities = await getActivity(userInfo._id);
 
   return (
     <section>
@@ -32,7 +28,7 @@ async function Page() {
       <section className="mt-10 flex flex-col gap-5">
         {activities.length > 0 ? (
           <>
-            {activities.map((activity) => (
+            {activities.map((activity: any) => (
               <Link key={activity._id} href={`/thread/${activity.parentId}`}>
                 <article className="activity-card">
                   <Image
