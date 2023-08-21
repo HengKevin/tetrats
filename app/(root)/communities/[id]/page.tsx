@@ -14,11 +14,12 @@ async function Page({ params }: { params: { id: string } }) {
   if (!user) return null;
 
   const communitiesDetails = await fetchCommunityDetails(params.id);
+  console.log("communitiesDetails", communitiesDetails);
 
   return (
     <section>
       <ProfileHeader
-        accountId={communitiesDetails.id}
+        accountId={communitiesDetails.createdBy.id}
         authUserId={user.id}
         name={communitiesDetails.name}
         username={communitiesDetails.username}
@@ -32,7 +33,13 @@ async function Page({ params }: { params: { id: string } }) {
           <TabsList className="tab">
             {communityTabs.map((tab) => (
               <TabsTrigger key={tab.label} value={tab.value} className="tab">
-                <Image src={tab.icon} alt={tab.label} width={24} height={24} />
+                <Image
+                  src={tab.icon}
+                  alt={tab.label}
+                  width={24}
+                  height={24}
+                  className="object-container"
+                />
                 <p className="max-sm:hidden">{tab.label}</p>
 
                 {tab.label === "Threads" && (
@@ -44,13 +51,13 @@ async function Page({ params }: { params: { id: string } }) {
             ))}
           </TabsList>
 
-          {/* <TabsContent value="threads" className="w-full text-light-1">
+          <TabsContent value="threads" className="w-full text-light-1">
             <ThreadsTab
               currentUserId={user.id}
               accountId={communitiesDetails._id}
               accountType="Community"
             />
-          </TabsContent> */}
+          </TabsContent>
           <TabsContent value="members" className="w-full text-light-1">
             <section className="mt-9 flex flex-col gap-10">
               {communitiesDetails?.members.map((member: any) => (
@@ -65,7 +72,7 @@ async function Page({ params }: { params: { id: string } }) {
               ))}
             </section>
           </TabsContent>
-          <TabsContent value="threads" className="w-full text-light-1">
+          <TabsContent value="request" className="w-full text-light-1">
             <ThreadsTab
               currentUserId={user.id}
               accountId={communitiesDetails._id}

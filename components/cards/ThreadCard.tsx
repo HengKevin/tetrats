@@ -42,7 +42,7 @@ const ThreadCard = async ({
 }: Props) => {
   return (
     <article
-      className={`flex w-full flex-col rounded- ${
+      className={`flex w-full flex-col rounded-2xl ${
         isComment ? "px-0 xs:px-7" : "bg-dark-2 p-7"
       } `}
     >
@@ -62,7 +62,7 @@ const ThreadCard = async ({
 
           <div>
             <Link href={`/profile/${author.id}`} className="w-fit">
-              <h4 className="cursor-pointer text-base1-semibold text-light-1">
+              <h4 className="cursor-pointer text-base1-semibold text-light-1 hover:text-secondary-500">
                 {author.name}
               </h4>
             </Link>
@@ -124,7 +124,9 @@ const ThreadCard = async ({
           className="mt-5 flex items-center"
         >
           <p className="text-subtle-medium text-gray-1">
-            {formatDateString(createdAt)} - {community.name} Community
+            {formatDateString(createdAt)} -{" "}
+            <span className="hover:text-third-500">{community.name}</span>{" "}
+            Community
           </p>
 
           <Image
