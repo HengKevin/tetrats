@@ -210,9 +210,18 @@ const UpdateAccountProfile = ({ user, btnTitle }: Props) => {
             </FormItem>
           )}
         />
-        <Button type="submit" className="bg-primary-500">
-          {btnTitle}
-        </Button>
+        <div className="flex flex-row justify-between">
+          <Button
+            type="button"
+            className="bg-red-500"
+            onClick={() => router.back()}
+          >
+            Cancel
+          </Button>
+          <Button type="submit" className="bg-primary-500">
+            Update
+          </Button>
+        </div>
       </form>
     </Form>
   );
