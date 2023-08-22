@@ -7,6 +7,7 @@ import Thread from "../models/thread.model";
 import User from "../models/user.model";
 
 import { connectToDB } from "../mongoose";
+import { fetchUser } from "./user.action";
 
 export async function createCommunity(
   id: string,
@@ -155,6 +156,24 @@ export async function fetchCommunities({
     return { communities, isNext };
   } catch (error) {
     console.error("Error fetching communities:", error);
+    throw error;
+  }
+}
+
+export async function fetchCommunitiesByUser(userId: string) {
+  try {
+    connectToDB();
+
+    // Find the user by their unique id
+    const user = await fetchUser(userId);
+    if (!user) throw new Error("User not found");
+
+    // Find all communities where the user is a member
+    const communities = await Community.find({ members: user._id });
+    return communities;
+  } catch (error) {
+    // Handle any errors
+    console.error("Error fetching communities by user:", error);
     throw error;
   }
 }

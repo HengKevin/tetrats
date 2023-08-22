@@ -7,6 +7,8 @@ import { Tabs, TabsList, TabsContent, TabsTrigger } from "@/components/ui/tabs";
 import Image from "next/image";
 import { profileTabs } from "@/constants";
 import ThreadsTab from "@/components/shared/ThreadsTab";
+import { fetchCommunitiesByUser } from "@/lib/actions/community.action";
+import CommunityCard from "@/components/cards/CommunityCard";
 
 async function Page({ params }: { params: { id: string } }) {
   const user = await currentUser();
@@ -16,6 +18,8 @@ async function Page({ params }: { params: { id: string } }) {
   const userInfo = await fetchUser(params.id);
 
   if (!userInfo?.onboarded) redirect("/onboarding");
+
+  const communities = await fetchCommunitiesByUser(params.id);
 
   return (
     <section>
@@ -45,19 +49,38 @@ async function Page({ params }: { params: { id: string } }) {
             ))}
           </TabsList>
 
-          {profileTabs.map((tab) => (
-            <TabsContent
-              key={`content-${tab.label}`}
-              value={tab.value}
-              className="w-full text-light-1"
-            >
-              <ThreadsTab
-                currentUserId={user.id}
-                accountId={userInfo.id}
-                accountType="User"
+          <TabsContent value="threads" className="w-full text-light-1">
+            <ThreadsTab
+              currentUserId={user.id}
+              accountId={userInfo.id}
+              accountType="User"
+            />
+          </TabsContent>
+
+          <TabsContent
+            value="communities"
+            className="w-full text-light-1 flex flex-row justify-between mt-10"
+          >
+            {communities.map((community) => (
+              <CommunityCard
+                key={community.id}
+                id={community.id}
+                name={community.name}
+                username={community.username}
+                imgUrl={community.image}
+                bio={community.bio}
+                members={[]}
               />
-            </TabsContent>
-          ))}
+            ))}
+          </TabsContent>
+
+          <TabsContent value="tagged" className="w-full text-light-1">
+            <ThreadsTab
+              currentUserId={user.id}
+              accountId={userInfo.id}
+              accountType="User"
+            />
+          </TabsContent>
         </Tabs>
       </div>
     </section>
