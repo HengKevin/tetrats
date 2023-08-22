@@ -1,4 +1,3 @@
-import PostThread from "@/components/forms/PostThread";
 import { fetchUser } from "@/lib/actions/user.action";
 import { currentUser } from "@clerk/nextjs";
 import { redirect } from "next/navigation";
@@ -59,7 +58,7 @@ async function Page({ params }: { params: { id: string } }) {
 
           <TabsContent
             value="communities"
-            className="w-full text-light-1 flex flex-row justify-between mt-10"
+            className="text-light-1 flex flex-wrap justify-between mt-10 gap-4"
           >
             {communities.map((community) => (
               <CommunityCard

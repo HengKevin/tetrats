@@ -1,9 +1,7 @@
 import Link from "next/link";
 import Image from "next/image";
 import { formatDateString } from "@/lib/utils";
-import { currentUser } from "@clerk/nextjs";
-import Thread from "@/lib/models/thread.model";
-import { Button } from "../ui/button";
+import DeleteButton from "../shared/DeleteButton";
 
 interface Props {
   id: string;
@@ -118,7 +116,7 @@ const ThreadCard = async ({
 
               {/* render the children components, the comments */}
               {isComment && comments.length > 0 && (
-                <Link href={`/threa/${id}`}>
+                <Link href={`/thread/${id}`}>
                   <p className="mt-1 text-subtle-medium text-gray-1">
                     {comments.length} replies
                   </p>
@@ -127,6 +125,13 @@ const ThreadCard = async ({
             </div>
           </div>
         </div>
+        {!isComment && author.id === currentUserId && (
+          <DeleteButton
+            threadId={JSON.stringify(id)}
+            parentId={parentId}
+            isComment={isComment}
+          />
+        )}
       </div>
       {/* delete thread */}
       {/* show comments logos */}
