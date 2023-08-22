@@ -6,6 +6,7 @@ export const ThreadValidation = z.object({
     .nonempty()
     .min(3, { message: "Thread must be at least 3 characters long" }),
   accountId: z.string(),
+  threadImg: z.string(),
 });
 
 export const CommentValidation = z.object({

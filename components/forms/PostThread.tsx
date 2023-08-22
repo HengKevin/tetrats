@@ -24,6 +24,9 @@ import { updateUser } from "@/lib/actions/user.action";
 import { usePathname, useRouter } from "next/navigation";
 import { createThread } from "@/lib/actions/thread.action";
 import { useOrganization } from "@clerk/nextjs";
+import { UploadDropzone } from "@uploadthing/react";
+
+import { OurFileRouter } from "@/app/api/uploadthing/core";
 
 interface Props {
   user: {
@@ -41,12 +44,14 @@ function PostThread({ userId }: { userId: string }) {
   const pathname = usePathname();
   const router = useRouter();
   const { organization } = useOrganization();
+  const [threadImg, setThreadImg] = useState("");
 
   const form = useForm({
     resolver: zodResolver(ThreadValidation),
     defaultValues: {
       thread: "",
       accountId: userId,
+      threadImg: "",
     },
   });
 
@@ -54,6 +59,7 @@ function PostThread({ userId }: { userId: string }) {
     await createThread({
       text: values.thread,
       author: userId,
+      threadImg: threadImg,
       communityId: organization ? organization.id : null,
       path: pathname,
     });
@@ -85,6 +91,22 @@ function PostThread({ userId }: { userId: string }) {
             </FormItem>
           )}
         />
+        <div className="text-light-1">
+          <UploadDropzone<OurFileRouter>
+            endpoint="strictImageAttachment"
+            onClientUploadComplete={(res) => {
+              if (!res) return;
+              setThreadImg(res[0].url);
+              console.log("file", res);
+            }}
+            onUploadError={(error: Error) => {
+              console.log("error", error);
+            }}
+            onUploadProgress={(name) => {
+              console.log("name", name);
+            }}
+          />
+        </div>
 
         <Button type="submit" className="bg-primary-500">
           Submit

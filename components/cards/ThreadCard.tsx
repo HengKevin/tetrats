@@ -10,6 +10,7 @@ interface Props {
   currentUserId: string;
   parentId: string | null;
   content: string;
+  threadImg: string;
   author: {
     id: string;
     name: string;
@@ -38,6 +39,7 @@ const ThreadCard = async ({
   community,
   createdAt,
   comments,
+  threadImg,
   isComment,
 }: Props) => {
   return (
@@ -67,6 +69,15 @@ const ThreadCard = async ({
               </h4>
             </Link>
             <p className="mt-2 text-small-regular text-light-2">{content}</p>
+            {threadImg && threadImg !== "" && (
+              <Image
+                src={threadImg}
+                alt="Thread Image"
+                width={300}
+                height={250}
+                className="mt-2 rounded-md object-cover"
+              />
+            )}
 
             <div className={`${isComment && "mt-5 flex flex-col gap-3"}`}>
               <div className="mt-2 flex gap-3.5">

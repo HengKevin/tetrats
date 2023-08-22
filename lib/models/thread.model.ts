@@ -7,6 +7,9 @@ const threadSchema = new mongoose.Schema({
     ref: "User",
     required: true,
   },
+  threadImg: {
+    type: String,
+  },
   community: {
     type: mongoose.Schema.Types.ObjectId,
     ref: "Community",
