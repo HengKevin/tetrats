@@ -1,5 +1,4 @@
 import mongoose from "mongoose";
-import { UserValidatoin } from "../validations/user";
 
 const userSchema = new mongoose.Schema({
   id: { type: String, required: true },

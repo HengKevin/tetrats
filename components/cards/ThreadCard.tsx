@@ -73,8 +73,9 @@ const ThreadCard = async ({
               <Image
                 src={threadImg}
                 alt="Thread Image"
-                width={300}
-                height={250}
+                layout="responsive"
+                width={500}
+                height={500}
                 className="mt-2 rounded-md object-cover"
               />
             )}
